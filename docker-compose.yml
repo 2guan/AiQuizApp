@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+  quiz-app:
+    container_name: quiz-app
+    build: .
+    restart: always
+    user: root # Run as root to avoid permission issues with mounted volumes
+    ports:
+      - "3100:3000"
+    volumes:
+      # Persist the SQLite database (mount directory instead of file to avoid Docker errors)
+      - ./data:/app/data
+      # Persist uploaded files (e.g. banners)
+      - ./public/uploads:/app/public/uploads
+    environment:
+      - NODE_ENV=production
+      - DB_PATH=/app/data/quiz.db

@@ -1,0 +1,136 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary-red: #E60012;
+  --color-primary-gold: #F7D117;
+}
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 255, 245, 245;
+  --background-end-rgb: 255, 255, 255;
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))) rgb(var(--background-start-rgb));
+  min-height: 100vh;
+}
+
+/* Inlining these classes in components is safer, but let's try @layer utilities or components */
+@layer components {
+  .btn-primary {
+    @apply bg-[#E60012] text-white font-bold py-3 px-6 rounded-lg shadow-lg hover:bg-red-700 transition-all active:scale-95;
+  }
+
+  .card {
+    @apply bg-white rounded-xl shadow-xl p-6 border border-red-100;
+  }
+}
+
+@layer utilities {
+  .animate-slide-up {
+    animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  .animate-fade-in-up {
+    animation: fadeInUp 0.5s ease-out forwards;
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  @keyframes slideUp {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes fadeInUp {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-bounce-in {
+    animation: bounceIn 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+  }
+
+  @keyframes bounceIn {
+    0% {
+      opacity: 0;
+      transform: scale(0.3);
+    }
+
+    50% {
+      opacity: 1;
+      transform: scale(1.05);
+    }
+
+    70% {
+      transform: scale(0.9);
+    }
+
+    100% {
+      transform: scale(1);
+    }
+  }
+
+  .animate-pulse-soft {
+    animation: pulseSoft 2s infinite;
+  }
+
+  @keyframes pulseSoft {
+    0% {
+      box-shadow: 0 0 0 0 rgba(var(--pulse-color, 230, 0, 18), 0.4);
+    }
+
+    70% {
+      box-shadow: 0 0 0 10px rgba(var(--pulse-color, 230, 0, 18), 0);
+    }
+
+    100% {
+      box-shadow: 0 0 0 0 rgba(var(--pulse-color, 230, 0, 18), 0);
+    }
+  }
+
+  .animate-shimmer {
+    animation: shimmer 8s infinite linear;
+    background: linear-gradient(var(--shimmer-angle, 110deg),
+        transparent 20%,
+        rgba(255, 255, 255, 0.05) 40%,
+        rgba(255, 255, 255, 0.15) 50%,
+        rgba(255, 255, 255, 0.05) 60%,
+        transparent 80%);
+    background-size: 200% 100%;
+  }
+
+  @keyframes shimmer {
+    0% {
+      background-position: 200% 0;
+    }
+
+    100% {
+      background-position: -200% 0;
+    }
+  }
+
+  .animate-breathe {
+    animation: breathe 10s ease-in-out infinite alternate;
+  }
+
+  @keyframes breathe {
+    0% {
+      transform: scale(1);
+    }
+
+    100% {
+      transform: scale(1.05);
+    }
+  }
+}

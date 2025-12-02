@@ -4,11 +4,11 @@
 
 **General AI Quiz Web APP** is a modern online knowledge competition platform built with **Next.js** and **AI Large Language Models (LLM)**. It integrates intelligent question generation, online quizzing, automatic scoring, competition management, and user management. It aims to provide an efficient and flexible solution for enterprises, schools, and organizations to conduct knowledge assessments and competitions.
 
-**通用AI出题答题网页应用** 是一个基于 **Next.js** 和 **AI大模型** 技术构建的现代化在线知识竞赛平台。该系统集成了智能出题、在线答题、自动评分、竞赛管理、用户管理等核心功能，旨在为企业、学校及各类组织提供一个高效、灵活的知识考核与竞赛解决方案。
+**通用AI出题答题网页应用** 是一个基于 **Next.js** 和 **AI大模型** 技术构建的现代化在线知识竞赛平台。该应用集成了智能出题、在线答题、自动评分、竞赛管理、用户管理等核心功能，旨在为企业、学校及各类组织提供一个高效、灵活的知识考核与竞赛解决方案。
 
 The Web APP supports administrators to quickly generate questions (including text and image-based questions) via AI, and also supports manual entry. Users can participate in different competitions, and the Web APP will automatically record the time taken and scores, generating a leaderboard.
 
-系统支持管理员通过AI快速生成题目（包括文本和图片题目），同时也支持手动录入。用户可以参与不同的竞赛，系统会自动记录答题时间与分数，并生成排行榜。
+应用支持管理员通过AI快速生成题目（包括文本和图片题目），同时也支持手动录入。用户可以参与不同的竞赛，应用会自动记录答题时间与分数，并生成排行榜。
 
 ## ✨ Key Features / 核心功能
 
@@ -34,7 +34,7 @@ The Web APP supports administrators to quickly generate questions (including tex
 - **Role Web APP**: Includes two roles: User and Administrator.
   - **角色体系**：包含普通用户和管理员两种角色。
 - **Registration Audit**: New users are in "Pending" status by default and need administrator approval to login, ensuring Web APP security.
-  - **注册审核**：新注册用户默认为“待审核”状态，需管理员批准后方可登录，确保系统安全。
+  - **注册审核**：新注册用户默认为“待审核”状态，需管理员批准后方可登录，确保应用安全。
 - **User Management**: Administrators can view the user list, audit, delete, or reset passwords.
   - **用户管理**：管理员可查看用户列表，进行审核、删除或重置密码等操作。
 
@@ -52,7 +52,7 @@ The Web APP supports administrators to quickly generate questions (including tex
 - **Quiz Records**: Users can view their own history and detailed scores.
   - **答题记录**：用户可查看自己的历史答题记录和详细得分情况。
 
-### 6. ⚙️ Web APP Settings / 系统设置
+### 6. ⚙️ Web APP Settings / 应用设置
 - **AI Model Configuration**: Support custom OpenAI-format API Key, Base URL, and model names (e.g., GPT-3.5, GPT-4, Claude, etc.).
   - **AI模型配置**：支持自定义OpenAI格式的API Key、Base URL及模型名称（如GPT-3.5, GPT-4, Claude等）。
 - **Global Parameters**: Administrators can configure default question counts, time limits, etc.
@@ -146,7 +146,7 @@ QuizAppG/
 ## 🔑 Default Account / 默认账号
 
 The Web APP automatically creates a default administrator account upon initialization:
-系统初始化时会自动创建默认管理员账号：
+应用初始化时会自动创建默认管理员账号：
 
 - **Username**: `admin`
 - **Password**: `admin`
@@ -157,7 +157,7 @@ The Web APP automatically creates a default administrator account upon initializ
 ## 📖 User Guide / 使用指南
 
 1.  **Admin Login**: Log in with default account `admin/admin`.
-    **管理员登录**：使用默认账号 `admin/admin` 登录系统。
+    **管理员登录**：使用默认账号 `admin/admin` 登录应用。
 2.  **Configure AI**: Go to "AI Settings", enter your AI API Key and Base URL.
     **配置AI**：进入“大模型设置”，输入您的 AI API Key 和 Base URL。
 3.  **Create Competition**: Click "Create New Competition" on the dashboard, fill in the title and upload a cover.
@@ -179,4 +179,5 @@ Welcome to submit Issues or Pull Requests to improve this project!
 [MIT License](LICENSE)
 
 # AiQuizApp
+
 

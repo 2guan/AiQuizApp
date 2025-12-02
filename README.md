@@ -4,7 +4,7 @@
 
 **General AI Quiz Web APP** is a modern online knowledge competition platform built with **Next.js** and **AI Large Language Models (LLM)**. It integrates intelligent question generation, online quizzing, automatic scoring, competition management, and user management. It aims to provide an efficient and flexible solution for enterprises, schools, and organizations to conduct knowledge assessments and competitions.
 
-**通用AI出题答题系统** 是一个基于 **Next.js** 和 **AI大模型** 技术构建的现代化在线知识竞赛平台。该系统集成了智能出题、在线答题、自动评分、竞赛管理、用户管理等核心功能，旨在为企业、学校及各类组织提供一个高效、灵活的知识考核与竞赛解决方案。
+**通用AI出题答题网页应用** 是一个基于 **Next.js** 和 **AI大模型** 技术构建的现代化在线知识竞赛平台。该系统集成了智能出题、在线答题、自动评分、竞赛管理、用户管理等核心功能，旨在为企业、学校及各类组织提供一个高效、灵活的知识考核与竞赛解决方案。
 
 The Web APP supports administrators to quickly generate questions (including text and image-based questions) via AI, and also supports manual entry. Users can participate in different competitions, and the Web APP will automatically record the time taken and scores, generating a leaderboard.
 
@@ -179,3 +179,4 @@ Welcome to submit Issues or Pull Requests to improve this project!
 [MIT License](LICENSE)
 
 # AiQuizApp
+

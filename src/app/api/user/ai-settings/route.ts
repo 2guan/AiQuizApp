@@ -10,7 +10,7 @@ export async function GET(req: NextRequest) {
     }
 
     const db = getDb();
-    const user = db.prepare('SELECT ai_api_key, ai_base_url, ai_model, img_gen_api_key FROM users WHERE id = ?').get(userId);
+    const user = db.prepare('SELECT ai_api_key, ai_base_url, ai_model, img_gen_api_key, img_gen_base_url, img_gen_model FROM users WHERE id = ?').get(userId);
 
     if (!user) {
         return NextResponse.json({ error: 'User not found' }, { status: 404 });
@@ -20,14 +20,16 @@ export async function GET(req: NextRequest) {
         ai_api_key: user.ai_api_key || '',
         ai_base_url: user.ai_base_url || '',
         ai_model: user.ai_model || 'gpt-3.5-turbo',
-        img_gen_api_key: user.img_gen_api_key || ''
+        img_gen_api_key: user.img_gen_api_key || '',
+        img_gen_base_url: user.img_gen_base_url || '',
+        img_gen_model: user.img_gen_model || 'jimeng-4.0'
     });
 }
 
 export async function POST(req: NextRequest) {
     try {
         const body = await req.json();
-        const { userId, ai_api_key, ai_base_url, ai_model, img_gen_api_key } = body;
+        const { userId, ai_api_key, ai_base_url, ai_model, img_gen_api_key, img_gen_base_url, img_gen_model } = body;
 
         if (!userId) {
             return NextResponse.json({ error: 'User ID is required' }, { status: 400 });
@@ -36,11 +38,11 @@ export async function POST(req: NextRequest) {
         const db = getDb();
         const stmt = db.prepare(`
             UPDATE users 
-            SET ai_api_key = ?, ai_base_url = ?, ai_model = ?, img_gen_api_key = ?
+            SET ai_api_key = ?, ai_base_url = ?, ai_model = ?, img_gen_api_key = ?, img_gen_base_url = ?, img_gen_model = ?
             WHERE id = ?
         `);
 
-        stmt.run(ai_api_key, ai_base_url, ai_model, img_gen_api_key, userId);
+        stmt.run(ai_api_key, ai_base_url, ai_model, img_gen_api_key, img_gen_base_url, img_gen_model, userId);
 
         return NextResponse.json({ success: true });
     } catch (error: any) {

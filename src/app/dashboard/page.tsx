@@ -287,8 +287,11 @@ export default function DashboardPage() {
                 <main className="flex-1 p-4 sm:p-8 overflow-y-auto scrollbar-hide">
                     {activeTab === 'competitions' ? (
                         <div className="max-w-6xl mx-auto">
-                            <div className="flex justify-between items-center mb-8">
-                                <h2 className="text-2xl font-bold text-gray-800">我的竞赛</h2>
+                            <div className="flex justify-between items-center bg-white p-4 rounded-lg shadow-sm mb-6">
+                                <div>
+                                    <h2 className="text-xl font-bold text-gray-800">我的竞赛</h2>
+                                    <p className="text-sm text-gray-500">管理所有的竞赛项目</p>
+                                </div>
                                 <button
                                     onClick={() => setShowCreateModal(true)}
                                     className="btn-primary flex items-center gap-2 px-6 py-3"

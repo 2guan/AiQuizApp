@@ -110,7 +110,7 @@ export default function CompetitionManagement({ currentUser }: CompetitionManage
                 </div>
             </div>
 
-            <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+            <div className="hidden md:block bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
                 <div className="overflow-x-auto">
                     <table className="w-full text-sm text-left">
                         <thead className="bg-gray-50 text-gray-700 uppercase border-b border-gray-100">
@@ -196,6 +196,77 @@ export default function CompetitionManagement({ currentUser }: CompetitionManage
                     </table>
                 </div>
             </div >
+
+            {/* Mobile View: Cards */}
+            <div className="md:hidden grid gap-4">
+                {loading ? (
+                    <div className="text-center py-12 text-gray-500">
+                        <Loader2 className="animate-spin mx-auto mb-2" size={20} />
+                        加载中...
+                    </div>
+                ) : competitions.length === 0 ? (
+                    <div className="text-center py-12 text-gray-400 bg-white rounded-xl border border-gray-100">
+                        暂无竞赛数据
+                    </div>
+                ) : (
+                    competitions.map((comp) => (
+                        <div key={comp.id} className="bg-white p-4 rounded-xl shadow-sm border border-gray-100 space-y-3">
+                            <div className="flex justify-between items-start">
+                                <div className="flex items-center gap-3">
+                                    <div className="w-10 h-10 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center font-bold">
+                                        {(comp.creator_name || 'U')[0].toUpperCase()}
+                                    </div>
+                                    <div>
+                                        <h3 className="font-bold text-gray-800 line-clamp-1">{comp.title}</h3>
+                                        <div className="mt-1 flex items-center gap-2 text-xs text-gray-500">
+                                            <span>{comp.creator_name || '未知用户'}</span>
+                                            <span>•</span>
+                                            <span>{new Date(comp.created_at).toLocaleDateString()}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <span className="bg-gray-100 px-2 py-1 rounded-full text-xs text-gray-600 font-medium whitespace-nowrap">
+                                    {comp.question_count || 0} 题
+                                </span>
+                            </div>
+
+                            <div className="grid grid-cols-4 gap-2 pt-2 border-t border-gray-50">
+                                <button
+                                    onClick={() => {
+                                        setSelectedCompetitionId(comp.id);
+                                        setShowQuestionBankModal(true);
+                                    }}
+                                    className="flex flex-col items-center justify-center p-2 rounded-lg bg-green-50 text-green-600 active:bg-green-100"
+                                >
+                                    <BookOpen size={18} className="mb-1" />
+                                    <span className="text-[10px]">题库</span>
+                                </button>
+                                <button
+                                    onClick={() => window.open(`/quiz/${comp.id}`, '_blank')}
+                                    className="flex flex-col items-center justify-center p-2 rounded-lg bg-purple-50 text-purple-600 active:bg-purple-100"
+                                >
+                                    <Play size={18} className="mb-1" />
+                                    <span className="text-[10px]">答题</span>
+                                </button>
+                                <button
+                                    onClick={() => handleViewHistory(comp.id)}
+                                    className="flex flex-col items-center justify-center p-2 rounded-lg bg-blue-50 text-blue-600 active:bg-blue-100"
+                                >
+                                    <History size={18} className="mb-1" />
+                                    <span className="text-[10px]">记录</span>
+                                </button>
+                                <button
+                                    onClick={() => handleDelete(comp.id)}
+                                    className="flex flex-col items-center justify-center p-2 rounded-lg bg-red-50 text-red-600 active:bg-red-100"
+                                >
+                                    <Trash2 size={18} className="mb-1" />
+                                    <span className="text-[10px]">删除</span>
+                                </button>
+                            </div>
+                        </div>
+                    ))
+                )}
+            </div>
 
             {/* History Modal */}
             {

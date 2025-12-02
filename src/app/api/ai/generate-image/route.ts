@@ -4,7 +4,7 @@ import path from 'path';
 
 export async function POST(req: NextRequest) {
     try {
-        const { apiKey, prompt, test } = await req.json();
+        const { apiKey, prompt, test, baseUrl, model } = await req.json();
 
         if (!apiKey) {
             return NextResponse.json({ error: 'API Key is required' }, { status: 400 });
@@ -14,11 +14,11 @@ export async function POST(req: NextRequest) {
             return NextResponse.json({ error: 'Prompt is required' }, { status: 400 });
         }
 
-        const apiUrl = 'http://3.guantools.top:3007/v1/images/generations';
+        const apiUrl = baseUrl || 'http://3.guantools.top:3007/v1/images/generations';
 
         // Default parameters for Jimeng 4.0
         const payload = {
-            model: "jimeng-4.0",
+            model: model || "jimeng-4.0",
             prompt: prompt || "Test prompt",
             negative_prompt: "",
             width: 1024,

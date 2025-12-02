@@ -13,7 +13,9 @@ export default function AISettings({ currentUser }: AISettingsProps) {
         ai_api_key: '',
         ai_base_url: '',
         ai_model: 'gpt-3.5-turbo',
-        img_gen_api_key: ''
+        img_gen_api_key: '',
+        img_gen_base_url: '',
+        img_gen_model: 'jimeng-4.0'
     });
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
@@ -95,7 +97,9 @@ export default function AISettings({ currentUser }: AISettingsProps) {
                 } else if (showConfirmModal.type === 'img') {
                     setSettings(prev => ({
                         ...prev,
-                        img_gen_api_key: data.img_gen_api_key || ''
+                        img_gen_api_key: data.img_gen_api_key || '',
+                        img_gen_base_url: data.img_gen_base_url || '',
+                        img_gen_model: data.img_gen_model || 'jimeng-4.0'
                     }));
                     showToast('已应用系统默认生图模型参数', 'success');
                 }
@@ -112,7 +116,7 @@ export default function AISettings({ currentUser }: AISettingsProps) {
 
     const handleTestImgGenConnection = async () => {
         if (!settings.img_gen_api_key) {
-            showToast('请先填写 Jimeng API Key / Session ID', 'error');
+            showToast('请先填写 API Key / Session ID', 'error');
             return;
         }
         setTestingImgGen(true);
@@ -123,6 +127,8 @@ export default function AISettings({ currentUser }: AISettingsProps) {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     apiKey: settings.img_gen_api_key,
+                    baseUrl: settings.img_gen_base_url,
+                    model: settings.img_gen_model,
                     prompt: 'Test connection',
                     test: true // Flag to indicate a test run (maybe just check auth)
                 })
@@ -178,7 +184,7 @@ export default function AISettings({ currentUser }: AISettingsProps) {
     }
 
     return (
-        <div className="max-w-3xl mx-auto space-y-6 animate-fade-in relative">
+        <div className="max-w-6xl mx-auto space-y-6 animate-fade-in relative">
             {/* Toast Notification */}
             {toast && (
                 <div className={`fixed top-4 right-4 z-50 px-6 py-3 rounded-xl shadow-lg transform transition-all duration-300 animate-slide-in flex items-center gap-2 ${toast.type === 'success' ? 'bg-green-600 text-white' : 'bg-red-600 text-white'}`}>
@@ -220,7 +226,7 @@ export default function AISettings({ currentUser }: AISettingsProps) {
             <div className="flex justify-between items-center bg-white p-4 rounded-lg shadow-sm">
                 <div>
                     <h2 className="text-xl font-bold text-gray-800">大模型设置</h2>
-                    <p className="text-sm text-gray-500">配置全局 AI 模型参数，用于所有竞赛的智能出题功能</p>
+                    <p className="text-sm text-gray-500">配置全局 AI 模型参数，用于所有竞赛的智能出题功能、头图生成功能</p>
                 </div>
             </div>
 
@@ -230,7 +236,7 @@ export default function AISettings({ currentUser }: AISettingsProps) {
                         <div className="bg-green-50 p-2 rounded-lg">
                             <FileText size={20} className="text-green-600" />
                         </div>
-                        大模型参数
+                        文字大模型参数
                     </h3>
                     <button
                         onClick={() => setShowConfirmModal({ show: true, type: 'ai' })}
@@ -295,7 +301,7 @@ export default function AISettings({ currentUser }: AISettingsProps) {
                         <div className="bg-purple-50 p-2 rounded-lg">
                             <ImageIcon size={20} className="text-purple-600" />
                         </div>
-                        生图模型设置 (Jimeng 4.0)
+                        图片大模型参数
                     </h3>
                     <button
                         onClick={() => setShowConfirmModal({ show: true, type: 'img' })}
@@ -306,7 +312,7 @@ export default function AISettings({ currentUser }: AISettingsProps) {
                 </div>
                 <div className="space-y-5">
                     <div>
-                        <label className="block text-sm font-semibold text-gray-700 mb-2">Jimeng API Key / Session ID</label>
+                        <label className="block text-sm font-semibold text-gray-700 mb-2">API Key / Session ID</label>
                         <input
                             type="password"
                             value={settings.img_gen_api_key}
@@ -317,6 +323,24 @@ export default function AISettings({ currentUser }: AISettingsProps) {
                         <p className="text-xs text-gray-500 mt-2">
                             用于生成竞赛 Banner 图片。请填入有效的 Session ID。
                         </p>
+                    </div>
+                    <div>
+                        <label className="block text-sm font-semibold text-gray-700 mb-2">Base URL (可选)</label>
+                        <input
+                            value={settings.img_gen_base_url}
+                            onChange={e => setSettings({ ...settings, img_gen_base_url: e.target.value })}
+                            className="w-full p-3.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none transition-all bg-gray-50 focus:bg-white"
+                            placeholder="例如: http://3.guantools.top:3007/v1/images/generations"
+                        />
+                    </div>
+                    <div>
+                        <label className="block text-sm font-semibold text-gray-700 mb-2">模型名称</label>
+                        <input
+                            value={settings.img_gen_model}
+                            onChange={e => setSettings({ ...settings, img_gen_model: e.target.value })}
+                            className="w-full p-3.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none transition-all bg-gray-50 focus:bg-white"
+                            placeholder="例如: jimeng-4.0"
+                        />
                     </div>
                     <div className="flex gap-3 mt-4">
                         <button

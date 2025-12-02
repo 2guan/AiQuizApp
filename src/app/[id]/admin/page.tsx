@@ -14,7 +14,7 @@ export default function AdminPage() {
     const router = useRouter();
     const params = useParams();
     const competitionId = params.id as string;
-    const [activeTab, setActiveTab] = useState('questions'); // questions, leaderboard, settings, ai, img-gen
+    const [activeTab, setActiveTab] = useState('settings'); // questions, leaderboard, settings, ai, img-gen
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [user, setUser] = useState<any>(null);
 
@@ -106,7 +106,7 @@ export default function AdminPage() {
             const res = await fetchApi(`/api/user/ai-settings?userId=${user.id}`);
             const data = await res.json();
             if (!data.img_gen_api_key) {
-                showNotification('请先在“大模型设置”中配置 Jimeng API Key / Session ID', 'error');
+                showNotification('请先在“大模型设置”中配置 API Key / Session ID', 'error');
                 return;
             }
             // Update local user object if needed, or just use the key from response
@@ -638,6 +638,12 @@ export default function AdminPage() {
                             </button>
                         </div>
                         <button
+                            onClick={() => { setActiveTab('settings'); setIsMobileMenuOpen(false); }}
+                            className={`w-full text-left p-3 rounded-xl flex items-center gap-3 transition-all ${activeTab === 'settings' ? 'bg-red-50 text-red-600 shadow-sm font-medium' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'}`}
+                        >
+                            <Settings size={20} /> 答题设置
+                        </button>
+                        <button
                             onClick={() => { setActiveTab('questions'); setIsMobileMenuOpen(false); }}
                             className={`w-full text-left p-3 rounded-xl flex items-center gap-3 transition-all ${activeTab === 'questions' ? 'bg-red-50 text-red-600 shadow-sm font-medium' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'}`}
                         >
@@ -654,12 +660,6 @@ export default function AdminPage() {
                             className={`w-full text-left p-3 rounded-xl flex items-center gap-3 transition-all ${activeTab === 'img-gen' ? 'bg-purple-50 text-purple-600 shadow-sm font-medium' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'}`}
                         >
                             <ImageIcon size={20} /> 头图设置
-                        </button>
-                        <button
-                            onClick={() => { setActiveTab('settings'); setIsMobileMenuOpen(false); }}
-                            className={`w-full text-left p-3 rounded-xl flex items-center gap-3 transition-all ${activeTab === 'settings' ? 'bg-red-50 text-red-600 shadow-sm font-medium' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'}`}
-                        >
-                            <Settings size={20} /> 答题设置
                         </button>
                         <button
                             onClick={() => { setActiveTab('certificate'); setIsMobileMenuOpen(false); }}
@@ -694,6 +694,12 @@ export default function AdminPage() {
                     <div className="p-6">
                         <div className="mb-6 px-3 text-xs font-bold text-gray-400 uppercase tracking-wider">功能菜单</div>
                         <button
+                            onClick={() => setActiveTab('settings')}
+                            className={`w-full text-left p-3 rounded-xl flex items-center gap-3 transition-all font-medium ${activeTab === 'settings' ? 'bg-red-50 text-red-600 shadow-sm' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'}`}
+                        >
+                            <Settings size={20} /> 答题设置
+                        </button>
+                        <button
                             onClick={() => setActiveTab('questions')}
                             className={`w-full text-left p-3 rounded-xl flex items-center gap-3 transition-all font-medium ${activeTab === 'questions' ? 'bg-red-50 text-red-600 shadow-sm' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'}`}
                         >
@@ -710,12 +716,6 @@ export default function AdminPage() {
                             className={`w-full text-left p-3 rounded-xl flex items-center gap-3 transition-all font-medium ${activeTab === 'img-gen' ? 'bg-purple-50 text-purple-600 shadow-sm' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'}`}
                         >
                             <ImageIcon size={20} /> 头图设置
-                        </button>
-                        <button
-                            onClick={() => setActiveTab('settings')}
-                            className={`w-full text-left p-3 rounded-xl flex items-center gap-3 transition-all font-medium ${activeTab === 'settings' ? 'bg-red-50 text-red-600 shadow-sm' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'}`}
-                        >
-                            <Settings size={20} /> 答题设置
                         </button>
                         <button
                             onClick={() => setActiveTab('certificate')}
@@ -761,7 +761,7 @@ export default function AdminPage() {
                                     <div className="bg-purple-50 p-2 rounded-lg">
                                         <ImageIcon size={20} className="text-purple-600" />
                                     </div>
-                                    AI 智能生成 (Jimeng 4.0)
+                                    AI 智能生成 (生图模型)
                                 </h3>
                                 <div className="space-y-6">
                                     <div>
@@ -787,7 +787,7 @@ export default function AdminPage() {
                                         ) : (
                                             <>
                                                 <ImageIcon size={20} />
-                                                开始生成 (生成4张)
+                                                开始生成
                                             </>
                                         )}
                                     </button>
@@ -1281,41 +1281,6 @@ export default function AdminPage() {
                                     </div>
                                 </div>
 
-                                {/* Quiz Settings */}
-                                <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow duration-300">
-                                    <h3 className="font-bold text-gray-800 text-lg flex items-center gap-3 mb-6">
-                                        <div className="bg-orange-50 p-2 rounded-lg">
-                                            <Clock size={20} className="text-orange-600" />
-                                        </div>
-                                        倒计时设置
-                                    </h3>
-                                    <div className="space-y-5">
-                                        <div>
-                                            <label className="block text-sm font-semibold text-gray-700 mb-2">每题倒计时（秒）</label>
-                                            <input
-                                                type="number"
-                                                value={pageSettings.question_timer}
-                                                onChange={e => setPageSettings({ ...pageSettings, question_timer: e.target.value })}
-                                                className="w-full p-3.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition-all bg-gray-50 focus:bg-white"
-                                                placeholder="默认为 20 秒"
-                                            />
-                                            <p className="text-xs text-gray-500 mt-2">设置为 0 表示不限制时间</p>
-                                        </div>
-                                        <button
-                                            onClick={handleSaveSettings}
-                                            className="w-full py-3.5 bg-orange-600 hover:bg-orange-700 text-white font-bold rounded-xl shadow-lg hover:shadow-xl transition-all transform active:scale-95 flex items-center justify-center gap-2 mt-4"
-                                        >
-                                            <Save size={18} /> 保存倒计时设置
-                                        </button>
-                                        <button
-                                            onClick={handleResetQuizSettings}
-                                            className="w-full py-3.5 bg-gray-100 hover:bg-gray-200 text-gray-600 font-bold rounded-xl shadow-sm hover:shadow transition-all mt-2 flex items-center justify-center gap-2"
-                                        >
-                                            <History size={18} /> 恢复默认设置
-                                        </button>
-                                    </div>
-                                </div>
-
                                 {/* Basic Quiz Settings (Question Counts) */}
                                 <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow duration-300">
                                     <h3 className="font-bold text-gray-800 text-lg flex items-center gap-3 mb-6">
@@ -1380,6 +1345,41 @@ export default function AdminPage() {
                                             className="w-full py-3.5 bg-green-600 hover:bg-green-700 text-white font-bold rounded-xl shadow-lg hover:shadow-xl transition-all transform active:scale-95 flex items-center justify-center gap-2 mt-4"
                                         >
                                             <Save size={18} /> 保存基础设置
+                                        </button>
+                                        <button
+                                            onClick={handleResetQuizSettings}
+                                            className="w-full py-3.5 bg-gray-100 hover:bg-gray-200 text-gray-600 font-bold rounded-xl shadow-sm hover:shadow transition-all mt-2 flex items-center justify-center gap-2"
+                                        >
+                                            <History size={18} /> 恢复默认设置
+                                        </button>
+                                    </div>
+                                </div>
+
+                                {/* Quiz Settings */}
+                                <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow duration-300">
+                                    <h3 className="font-bold text-gray-800 text-lg flex items-center gap-3 mb-6">
+                                        <div className="bg-orange-50 p-2 rounded-lg">
+                                            <Clock size={20} className="text-orange-600" />
+                                        </div>
+                                        倒计时设置
+                                    </h3>
+                                    <div className="space-y-5">
+                                        <div>
+                                            <label className="block text-sm font-semibold text-gray-700 mb-2">每题倒计时（秒）</label>
+                                            <input
+                                                type="number"
+                                                value={pageSettings.question_timer}
+                                                onChange={e => setPageSettings({ ...pageSettings, question_timer: e.target.value })}
+                                                className="w-full p-3.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition-all bg-gray-50 focus:bg-white"
+                                                placeholder="默认为 20 秒"
+                                            />
+                                            <p className="text-xs text-gray-500 mt-2">设置为 0 表示不限制时间</p>
+                                        </div>
+                                        <button
+                                            onClick={handleSaveSettings}
+                                            className="w-full py-3.5 bg-orange-600 hover:bg-orange-700 text-white font-bold rounded-xl shadow-lg hover:shadow-xl transition-all transform active:scale-95 flex items-center justify-center gap-2 mt-4"
+                                        >
+                                            <Save size={18} /> 保存倒计时设置
                                         </button>
                                         <button
                                             onClick={handleResetQuizSettings}
